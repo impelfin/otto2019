@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<html>
+
+	<head>
+		<title > OTTO2019 Test set_category Page </title>
+		<meta charset="utf-8" />
+		<style type="text/css">
+			#header{
+				margin: 20px;
+				padding: 20px;
+				border: 1px solid #828282;
+			}
+			#section{
+				margin: 20px 20px 20px 20px;
+				padding: 20px;
+				border: 1px solid #828282;
+			}
+			#footer{
+				clear: both;
+				margin: 20px;
+				padding: 20px;
+				border: 1px solid #828282;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="header">
+			<h2 align="center"> OTTO2019 Test Set_Category Page  </h2>
+			<hr style="border: solid 2px black;">
+		</div>
+
+		<div id="section">
+			<h3> Gateway에 태그된 TSN의 카테고리를 체크해 주세요!</h3>
+			<form action = "http://192.168.1.3:8080/data_process/category" accept-charset="utf-8"name = "category_info" method = "post"
+
+				<input type="radio" name="category_info" value="tooth">칫솔
+				<input type="radio" name="category_info" value="water">정수기
+				<input type="radio" name="category_info" value="bed">침대
+				<input type="submit" value="확인">
+				</form>
+		</div>
+		
+		<div id ="footer">
+			<b>footer</b>
+			<p>CopyRight</p>
+		</div>
+	</body>
+</html>
+
