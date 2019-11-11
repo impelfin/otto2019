@@ -1,19 +1,18 @@
 from datetime import datetime
 f=open("text.txt",'r')
 f1=open("TSN_data.txt",'w')
-f2=open("/tmp/TSN_data_r.txt",'r')
+#f2=open("/tmp/TSN_data_r.txt",'r')
 
 data = [[0]*100 for i in range(9)]
 i=0
 last_read='0'
 
-while True:
-	read=f2.readline()
-	if not read:
-#		last_read='0'
-		break
-	last_read=read
-count =int(last_read)
+#while True:
+#	read=f2.readline()
+#	if not read:
+#		break
+#	last_read=read
+#count =int(last_read)
 
 lines = f.readlines()
 for line in lines:
