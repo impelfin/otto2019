@@ -5,13 +5,17 @@ import time
 import sub1
 import sub2
 import sub3
-
+import os
+impott DB_Data_Output
+import DB_Data_Input
 
 HOST = "192.168.0.7"
 PORT = 80
 fcount = 1
 
+
 def handler(conn,addr) :
+	time1 = time.strptime("%Y-%m-%d %H:%M:%S",time.localtime(time.time()))
 	global fcount
 	b=0
 	if fcount==3:
@@ -37,6 +41,7 @@ def handler(conn,addr) :
 			time.sleep(0.1)
 		data = conn.recv(1024)
 		reply = '\r'
+		
 		if data == "Stop\r" :
 			conn.close()
 			if key ==1:
@@ -49,6 +54,26 @@ def handler(conn,addr) :
 				sub3.sub3_sql()
 				f3.close()
 			print 'disconnected from : ', addr
+			arg=["TSN_Info","TSN_Info"]
+			DB_Data_Output.rec1(arg)		
+			file_I = open("/tmp/TSN_Info","r")
+			os.system('rm /tmp/TSN_Info')
+			tsn[:-1]=""
+			tsncategory=file_I.readlines()
+			category=""
+			for i in tsncategory:
+				if tsn == i[0]:
+					if i[1] == "Sleep": category="Sleep"
+					elif i[1] == "Tooth": category="Tooth"
+					elif i[1] == "Water": category="Water"
+			str=["Datetime",category,time1,time.strftime('%Y-%m-%d',time.localtime(time.time())),"TSN_Data"]	
+			DB_Data_Output.rec(str)
+			Make_TSNData.MakeData(category)
+			os.system(rm /tmp/TSN_Data.txt)
+			str1=["TSN_data.txt",category]
+			DB_Data_Input.send(str1)
+
+		
 			break
 		else:
 			data = data[:-1] + "\n"
