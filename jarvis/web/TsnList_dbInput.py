@@ -1,6 +1,6 @@
 import pymysql
 
-def TsnList_sql(Tcode, category) :
+def act(Tcode, category) :
 	con = pymysql.connect(host='localhost', user='testbot', password='1234', db='hello', charset='utf8', local_infile = 1)
 	con.autocommit(True)
 
@@ -13,4 +13,4 @@ def TsnList_sql(Tcode, category) :
 	con.close()
 
 if __name__ =="__main__":
-	TsnList_sql("test","test")
+	act("test","test")

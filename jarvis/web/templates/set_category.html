@@ -34,11 +34,12 @@
 
 		<div id="section">
 			<h3> Gateway에 태그된 TSN의 카테고리를 체크해 주세요!</h3>
-			<form action = "http://192.168.1.3:8080/data_process/category" accept-charset="utf-8"name = "category_info" method = "post"
+			<form action = "http://192.168.1.2:8080/data_process/category" accept-charset="utf-8" method = "post">
 
-				<input type="radio" name="category_info" value="tooth">칫솔
-				<input type="radio" name="category_info" value="water">정수기
-				<input type="radio" name="category_info" value="bed">침대
+				칫솔<input type="radio" name="category_info" value="tooth">
+				정수기<input type="radio" name="category_info" value="water">
+				침대<input type="radio" name="category_info" value="bed">
+				<br><br><br>	
 				<input type="submit" value="확인">
 				</form>
 		</div>

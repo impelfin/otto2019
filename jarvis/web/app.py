@@ -1,4 +1,5 @@
 import os
+import run_def
 import bottle
 from bottle import route, run, template
 import random
@@ -22,7 +23,7 @@ TEMPLATE_STRING = """
 	</head>
 
 	<body>
-		<h1> Bugs found over the past {{ bars_count }} days</h1>
+		<h1> Data collected over the past  {{ bars_count }} days</h1>
 		{{ !the_div }}
 		<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.js"></script>
 		<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.6.min.js"></script>
@@ -31,21 +32,22 @@ TEMPLATE_STRING = """
 </html>
 """
 
-@route('/<num_bars:int>/')
+@route('/<num_bars:int>')
 def chart(num_bars):
 	"""Returns a simple template stating the number of bars that should be generated when the rest of the function is complete.
 	"""
 
 	if num_bars <= 0:
 		num_bars = 1
-	data = {"days": [], "bugs": [], "costs": []}
-	for i in range(1, num_bars + 1):
-		data['days'].append(i)
-		data['bugs'].append(random.randint(1,100))
+	num_bars = num_bars + 10000
+	data = {"days": [], "ydata": [], "costs": []}
+	for i in range(10000, num_bars + 1):
+		data['days'].append(i) # 날짜 집어넣기
+		data['ydata'].append(random.randint(1,100)) # 데이터 집어넣기
 		data['costs'].append(random.uniform(1.00, 1000.00))
 
 	hover = create_hover_tool()
-	plot = create_bar_chart(data, "Bugs found per day", "days", "bugs", hover)
+	plot = create_bar_chart(data, "OTTO2019 ChartBoard", "days", "ydata", hover)
 	script, div = components(plot)
 	return template(TEMPLATE_STRING, bars_count=num_bars, the_div=div, the_script=script)
 
@@ -85,12 +87,11 @@ def create_bar_chart(data, title, x_name, y_name, hover_tool=None,
 	plot.min_border_top = 0
 	plot.xgrid.grid_line_color = None
 	plot.ygrid.grid_line_color = "#999999"
-	plot.yaxis.axis_label = "Bugs found"
+	plot.yaxis.axis_label = "Days"
 	plot.ygrid.grid_line_alpha = 0.1
-	plot.xaxis.axis_label = "Days after app deployment"
+	plot.xaxis.axis_label = "Data Counts"
 	plot.xaxis.major_label_orientation = 1
 	return plot
 
 if __name__=='__main__':
-	run(host='192.168.1.3', port=8000, debug=False, reloader=True)
-
+	run(host=run_def.host, port=run_def.port, debug=False, reloader=True)

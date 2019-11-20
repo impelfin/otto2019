@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<html>
+
+	<head>
+		<title > OTTO2019 Test Viewing Page </title>
+		<meta charset="utf-8" />
+		<style type="text/css">
+			#header{
+				margin: 20px;
+				padding: 20px;
+				border: 1px solid #828282;
+			}
+			#section{
+				margin: 20px 20px 20px 20px;
+				padding: 20px;
+				border: 1px solid #828282;
+			}
+			#footer{
+				clear: both;
+				margin: 20px;
+				padding: 20px;
+				border: 1px solid #828282;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="header">
+			<h2 align="center"> OTTO2019 Test Viewing Page  </h2>
+			<hr style="border: solid 2px black;">
+		</div>
+
+		<div id="section">
+			<h3> Data Viewing 범위를 설정 해 주세요! </h3>
+			<form action = "http://192.168.1.2:8080/data_process/graph" accept-charset="utf-8" name='date_info' method="post">
+
+				<br>
+				시작일 <input type='date' name="data_min" id='currentDate'>
+				종료일 <input type='date' name="data_max" id='currentDate'>
+				<br><br><br>
+				<input type="submit" value="확인">
+
+				<script>
+					document.getElementById('currentDate').value= newDate().toISOString().slice(0, 7);
+				</script>
+			</form>
+		</div>
+		
+		<div id ="footer">
+			<b>footer</b>
+			<p>CopyRight</p>
+		</div>
+	</body>
+</html>
+

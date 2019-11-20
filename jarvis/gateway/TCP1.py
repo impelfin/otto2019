@@ -2,19 +2,24 @@ import socket
 import threading
 import sys
 import time
+<<<<<<< HEAD
 import sub1
 import sub2
 import sub3
 import os
 impott DB_Data_Output
 import DB_Data_Input
+=======
 
-HOST = "192.168.0.7"
+>>>>>>> a4ad404a842bd219e41d4873f14ab3c2c34abca3
+
+HOST = "192.168.0.20"
 PORT = 80
 fcount = 1
 
 
 def handler(conn,addr) :
+<<<<<<< HEAD
 	time1 = time.strptime("%Y-%m-%d %H:%M:%S",time.localtime(time.time()))
 	global fcount
 	b=0
@@ -30,17 +35,12 @@ def handler(conn,addr) :
 		key = fcount
 		f1 = open("/usr/local/mysql/bin/mysqltest1.txt", 'w')
 		fcount +=1
+=======
+>>>>>>> a4ad404a842bd219e41d4873f14ab3c2c34abca3
 	while 1:
-		time.sleep(0.1)
-		if b==0:
-			tsn = conn.recv(1024)
-			tsn = tsn[:-1] + "\t"
-			reply = '\r'
-			conn.sendall(reply)
-			b +=1
-			time.sleep(0.1)
 		data = conn.recv(1024)
 		reply = '\r'
+<<<<<<< HEAD
 		
 		if data == "Stop\r" :
 			conn.close()
@@ -87,6 +87,11 @@ def handler(conn,addr) :
 				f3.write(data)
 			conn.sendall(reply)
 
+=======
+		conn.sendall(reply)
+		time.sleep(0.8)
+		print data
+>>>>>>> a4ad404a842bd219e41d4873f14ab3c2c34abca3
 while True:
 	a=0
 	try:
