@@ -1,4 +1,5 @@
 from bottle import route, run
+from datetime import datetime, timedelta
 import run_def
 from bottle import template
 from bottle import *
@@ -45,6 +46,72 @@ def server_static(filename):
 def mainpage():
 	return template('/root/workbench/templates/mainpage.html') 
 
+@route('/mainpage_setup')
+def mainpage_setup():
+
+	j = datetime.now()
+
+	j = j + timedelta(days=-20)
+	start = j.strftime("%Y-%m-%d")
+	end = j.strftime("%Y-%m-%d")
+
+	TsnList_dbOutput.act(start, end)    # data pull module
+
+	f1 = open("/tmp/graphdata.txt", 'r')
+	lines = f1.readlines()
+
+	data = {"category":[], "count":[]}
+
+	i = 0
+	for line in lines:
+		tmp = line
+		tmp = tmp.split(',')
+		data["category"].append(tmp[0])
+		tmp[0] = "0"
+		tmp = [int (k) for k in tmp]
+		data["count"].append(tmp[1])	#int로 형 변환
+		i += 1
+
+	os.remove("/tmp/graphdata.txt")
+
+	hover = create_hover_tool1()
+	exstr = "OTTO2019 Test main graph"
+	plot = create_bar_chart1(data, exstr, "category", "count", hover)
+	script, div = components(plot)
+	return template(TEMPLATE_STRING, bars_count="days", the_div=div, the_script=script)
+
+def create_hover_tool1():
+	return None
+
+def create_bar_chart1(data, title, x_name, y_name, hover_tool=None, width=1200,  height=300):
+
+	source = ColumnDataSource(data)
+	xdr = FactorRange(factors=data[x_name])
+	ydr = Range1d(start=0,end=100)
+
+	tools=[]
+	if hover_tool:
+		tools = [hover_tool,]
+
+	plot = figure(title=title, x_range=xdr, y_range=ydr, plot_width=width, plot_height=height, h_symmetry=False, v_symmetry=False, min_border=10, toolbar_location="above", tools=tools, responsive=True, outline_line_color="#666666")
+
+	glyph = VBar(x=x_name, top=y_name, bottom=0, width=.8, fill_color="#6599ed")
+	plot.add_glyph(source,glyph)
+
+	xaxis = LinearAxis()
+	yaxis = LinearAxis()
+
+	plot.add_layout(Grid(dimension=0, ticker=xaxis.ticker))
+	plot.add_layout(Grid(dimension=1, ticker=yaxis.ticker))
+	plot.toolbar.logo = None
+	plot.min_border_top = 0
+	plot.xgrid.grid_line_color = None
+	plot.ygrid.grid_line_color = "#999999"
+	plot.yaxis.axis_label = "Score"
+	plot.ygrid.grid_line_alpha = 1
+	plot.xaxis.axis_label = "Category"
+	plot.xaxis.major_label_orientation = 1
+	return plot
 
 @route('/ViewingData')
 def ViewingData():
@@ -52,8 +119,12 @@ def ViewingData():
 
 @route('/ViewingTsnList')
 def ViewingTsnList():
-	f2 = open("/tmp/tsnlistdata.txt", 'r')
+
+	TsnList_dbOutput.act2("TsnList")
+	f2 = open("/tmp/tsnlist.txt", 'r')
 	lines2 = f2.readlines()
+
+	os.remove("/tmp/tsnlist.txt")
 
 	return bottle.template('/root/workbench/templates/viewingtsnlist.tpl',lines=lines2)
 
@@ -82,14 +153,6 @@ def graph_processing():
 
 	os.remove("/tmp/graphdata.txt")
 
-	#def week_graph():
-		#if end-start==0
-
-	#def week_graph():
-		#if end-start >0 && end-start<30
-
-	#def month_graph():
-		#if end-start >0month 
 
 	hover = create_hover_tool()
 	exstr = "OTTO2019 Test Graph Page"

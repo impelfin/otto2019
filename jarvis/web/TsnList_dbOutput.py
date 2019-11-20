@@ -11,5 +11,19 @@ def act(start, end) :
 
 	con.close()
 
+
+
+
+def act2(tablename):
+	con = pymysql.connect(host='localhost', user='testbot', password='1234', db='hello', charset='utf8', local_infile = 1)
+	con.autocommit(True)
+
+	curs = con.cursor()
+
+	sql1=("select * from " + tablename + " into outfile \"/tmp/tsnlist.txt\" fields terminated by ',' lines terminated by '\n';")
+
+	curs.execute(sql1)
+
+	con.close()
 if __name__ =="__main__":
-	act("2019-11-11","2019-11-13")
+	act2("2019-11-11")
